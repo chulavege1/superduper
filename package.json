@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "https://back-pqg0.onrender.com",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -14,7 +15,6 @@
     "react-dom": "^18.3.1",
     "axios": "^1.7.9"
   },
-  "proxy": "https://back-pqg0.onrender.com",
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.18",
