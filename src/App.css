@@ -1,0 +1,43 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+div > image-grid{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 720px;
+  justify-content: center;
+}
+
+.image-container {
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 150px;
+  width: 100%;
+  transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.image-container:hover {
+  transform: scale(1.05);
+  border-color: #007bff;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.image-container.selected {
+  border-color: #28a745;
+  background-color: rgba(40, 167, 69, 0.2);
+}
