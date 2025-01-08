@@ -2,10 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+// Define the types for images and API responses
+interface Image {
+  name: string;
+  url: string;
+}
+
+interface CaptchaResponse {
+  task: string;
+  images: Image[];
+  sessionId: string;
+}
+
 function App() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]); // Specify type for images
   const [task, setTask] = useState('');
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<string[]>([]); // Specify type for selected items
   const [sessionId, setSessionId] = useState('');
   const [timer, setTimer] = useState(30); // 30 seconds timer
   const [isCaptchaPassed, setIsCaptchaPassed] = useState(false);
@@ -13,7 +25,7 @@ function App() {
   // Fetch captcha on load or refresh
   const fetchCaptcha = async () => {
     try {
-      const response = await axios.get('https://back-pqg0.onrender.com/api/captcha');
+      const response = await axios.get<CaptchaResponse>('https://back-pqg0.onrender.com/api/captcha');
       const { task: taskCategory, images: fetchedImages, sessionId: session } = response.data;
       setTask(taskCategory);
       setImages(fetchedImages);
@@ -39,11 +51,11 @@ function App() {
   }, [timer, isCaptchaPassed]);
 
   // Handle image selection
-  const handleSelect = (image) => {
-    if (selected.includes(image)) {
-      setSelected(selected.filter(item => item !== image));
+  const handleSelect = (imageName: string) => {
+    if (selected.includes(imageName)) {
+      setSelected(selected.filter(item => item !== imageName));
     } else {
-      setSelected([...selected, image]);
+      setSelected([...selected, imageName]);
     }
   };
 
@@ -76,21 +88,18 @@ function App() {
       <p>Time left: {timer} seconds</p>
       {isCaptchaPassed ? (
         <div>
-          
           <p>Captcha passed! Click below to retry:</p>
           <button onClick={fetchCaptcha}>Try Another Captcha</button>
         </div>
       ) : (
         <div>
-          
           <div className="image-grid">
-            {images.map(image => (
+            {images.map((image) => (
               <div
                 key={image.name}
                 className={`image-container ${selected.includes(image.name) ? 'selected' : ''}`}
                 onClick={() => handleSelect(image.name)}
               >
-                {/* <img src={image.url} alt={image.name} /> */}
                 <img src={`https://back-pqg0.onrender.com${image.url}`} alt={image.name} />
               </div>
             ))}
